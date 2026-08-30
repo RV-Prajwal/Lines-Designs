@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import type { Variants } from 'framer-motion';
-import { SmartImage } from './SmartImage';
 import { IMAGES } from '../images';
 
 const container: Variants = {
@@ -27,18 +26,33 @@ export const HeroSection: React.FC = () => {
     <section className="relative w-full h-[100svh] min-h-[640px] overflow-hidden bg-black">
       {/* ================= BACKGROUND IMAGE LAYER ================= */}
       <div className="absolute inset-0 z-0">
-        <SmartImage
-          src={IMAGES.hero}
-          alt="A refined interior designed by Lines & Designs"
-          eager
-          label="LINES & DESIGNS"
-          className="absolute inset-0 w-full h-full"
-          imgClassName="animate-kenburns brightness-[0.72] contrast-[1.06] saturate-[0.95]"
-        />
-        {/* left → right darkening for legibility */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/75 to-black/25" />
+        {/*
+          Responsive hero: portrait crop on mobile, landscape on ≥640 px.
+          We use a <picture> element so the browser picks the right source
+          before rendering — no layout shift, no JS required.
+        */}
+        <picture className="absolute inset-0 w-full h-full">
+          {/* Portrait / mobile source */}
+          <source media="(max-width: 639px)" srcSet={IMAGES.heroMobile} />
+          {/* Default landscape source */}
+          <img
+            src={IMAGES.hero}
+            alt="A refined interior designed by Lines &amp; Designs"
+            loading="eager"
+            decoding="async"
+            className="absolute inset-0 w-full h-full object-cover animate-kenburns brightness-[0.72] contrast-[1.06] saturate-[0.95]"
+          />
+        </picture>
+
+        {/* Desktop: left → right darkening for text legibility */}
+        <div className="hidden sm:block absolute inset-0 bg-gradient-to-r from-black via-black/75 to-black/25" />
+
+        {/* Mobile: bottom-heavy dark layer so headline sits above rich image */}
+        <div className="block sm:hidden absolute inset-0 bg-gradient-to-t from-black via-black/80 to-black/20" />
+
         {/* top + bottom vignette to blend nav and next section */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black" />
+
         {/* cinematic film grain */}
         <div className="absolute inset-0 bg-grain mix-blend-overlay opacity-[0.07] animate-grain pointer-events-none" />
       </div>
@@ -88,10 +102,10 @@ export const HeroSection: React.FC = () => {
               <span className="text-[#8C6D4F] mx-1.5">·</span> Hospitality
             </motion.p>
 
-            {/* Description */}
+            {/* Description — hidden on mobile to keep the image visible */}
             <motion.p
               variants={fadeUp}
-              className="mt-6 text-sm md:text-[15px] font-light text-[#B9AA9C] leading-[1.85] tracking-wide max-w-xl"
+              className="hidden sm:block mt-6 text-sm md:text-[15px] font-light text-[#B9AA9C] leading-[1.85] tracking-wide max-w-xl"
               style={{ fontFamily: "'Montserrat', sans-serif" }}
             >
               We shape refined, light-filled interiors where architecture, material,

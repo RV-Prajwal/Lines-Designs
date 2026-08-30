@@ -15,6 +15,7 @@ const img = (name: string) => `/images/${name}`;
 
 export const IMAGES = {
   hero: img('hero.jpg'),
+  heroMobile: img('hero-mobile.jpg'),
   studio: img('studio.jpg'),
   projects: {
     one: img('project-1-terrace-house.jpg'),

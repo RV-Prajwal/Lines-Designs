@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 /* ─────────────────────────────────────────────
    Inline SVG monogram (mirrors Logo.tsx Mark)

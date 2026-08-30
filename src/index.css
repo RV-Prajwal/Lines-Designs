@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background-color: #000;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+::selection {
+  background: #cbb59d;
+  color: #000;
+}
+
+/* When the cinematic custom cursor is active, hide the native cursor everywhere */
+html.cursor-none,
+html.cursor-none * {
+  cursor: none !important;
+}
+
+/* Cinematic dark/gold scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #050403;
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(#8c6d4f, #4a3826);
+  border: 2px solid #050403;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(#d4af37, #8c6d4f);
+}
+
+/* Slow cinematic Ken Burns drift for hero / feature imagery */
+@keyframes kenburns {
+  0% {
+    transform: scale(1.05) translate3d(0, 0, 0);
+  }
+  100% {
+    transform: scale(1.16) translate3d(-1.5%, -2%, 0);
+  }
+}
+.animate-kenburns {
+  animation: kenburns 26s ease-in-out infinite alternate;
+}
+
+/* Soft film grain flicker for atmosphere */
+@keyframes grain-flicker {
+  0%,
+  100% {
+    opacity: 0.05;
+  }
+  50% {
+    opacity: 0.09;
+  }
+}
+.animate-grain {
+  animation: grain-flicker 6s steps(3) infinite;
+}
+
+/* Fine noise texture used for the cinematic grain overlay */
+.bg-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-kenburns,
+  .animate-grain {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}

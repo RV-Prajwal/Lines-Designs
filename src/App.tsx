@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Preloader } from './components/Preloader';
 import { CustomCursor } from './components/CustomCursor';
+import { WhatsAppButton } from './components/WhatsAppButton';
 import { Navbar } from './components/Navbar';
-import { HeroSection } from './components/HeroSection';
-import { ServicesSection } from './components/ServicesSection';
-import { PortfolioSection } from './components/PortfolioSection';
-import { StudioSection } from './components/StudioSection';
-import { ProcessSection } from './components/ProcessSection';
-import { TestimonialsSection } from './components/TestimonialsSection';
-import { ContactSection } from './components/ContactSection';
+import { Home } from './pages/Home';
+import { ServicesPage } from './pages/ServicesPage';
 
 const App: React.FC = () => {
-  const [loaded, setLoaded] = useState(false);
+  const skipPreloader =
+    typeof window !== 'undefined' &&
+    new URLSearchParams(window.location.search).get('skip') === '1';
+  const [loaded, setLoaded] = useState(skipPreloader);
 
   return (
-    <>
+    <BrowserRouter>
       <Preloader onFinished={() => setLoaded(true)} />
 
       {loaded && (
@@ -28,18 +28,16 @@ const App: React.FC = () => {
         >
           <CustomCursor />
           <Navbar />
-          <main>
-            <HeroSection />
-            <ServicesSection />
-            <PortfolioSection />
-            <StudioSection />
-            <ProcessSection />
-            <TestimonialsSection />
-            <ContactSection />
-          </main>
+          <WhatsAppButton />
+
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="*" element={<Home />} />
+          </Routes>
         </motion.div>
       )}
-    </>
+    </BrowserRouter>
   );
 };
 

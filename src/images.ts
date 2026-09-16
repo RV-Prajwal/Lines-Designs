@@ -24,6 +24,13 @@ export const IMAGES = {
     four: img('project-4-meridian-workspace.jpg'),
     five: img('project-5-monochrome-penthouse.jpg'),
   },
+  services: {
+    siteAnalysis: img('services/site-analysis-planning.jpg'),
+    structuralEngineering: img('services/structural-engineering.jpg'),
+    approvalsCoordination: img('services/approvals-coordination.jpg'),
+    constructionExecution: img('services/construction-execution.jpg'),
+    projectHandover: img('services/project-handover.jpg'),
+  },
 };
 
 export default IMAGES;
